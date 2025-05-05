@@ -3,8 +3,6 @@ package likelion.side_project_blog.dto.request;
 import lombok.Getter;
 
 @Getter
-public class AddCommentRequest {
-    private String content;
-    private String author;
+public class DeleteRequest {
     private String password;
 }

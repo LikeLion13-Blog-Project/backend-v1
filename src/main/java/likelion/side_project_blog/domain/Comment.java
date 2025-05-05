@@ -29,7 +29,15 @@ public class Comment {
     private String content;
 
     @Column(nullable = false)
+    private String author;
+
+    @Column(nullable = false)
+    private String password;
+
+
+    @Column(nullable = false)
     private LocalDateTime createdAt;
+
 
     @Builder
     public Comment(Article article,String content){

@@ -1,6 +1,7 @@
 package likelion.side_project_blog.controller;
 
 import likelion.side_project_blog.dto.request.AddCommentRequest;
+import likelion.side_project_blog.dto.request.DeleteRequest;
 import likelion.side_project_blog.dto.response.ApiResponse;
 import likelion.side_project_blog.service.CommentService;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +28,9 @@ public class CommentController {
 
     /*댓글 삭제*/
     @DeleteMapping("/{commentId}")
-    public ResponseEntity<ApiResponse> deleteComment(@PathVariable long commentId){
-        commentService.deleteComment(commentId);
+    public ResponseEntity<ApiResponse> deleteComment(@PathVariable long commentId,
+                                                     @RequestBody DeleteRequest request){
+        commentService.deleteComment(commentId,request);
 //        return ResponseEntity.ok(new ApiResponse(true,200,"댓글 삭제 성공"));
         return ResponseEntity.ok(ApiResponse.success("댓글 삭제 성공"));
     }

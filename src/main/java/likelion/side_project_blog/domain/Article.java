@@ -26,6 +26,11 @@ public class Article {
     @Column(nullable = false,updatable = false)
     private LocalDateTime createdAt;
 
+    @Column(nullable = false)
+    private String author;
+
+    @Column(nullable = false)
+    private String password;
 
 
     public void update(String title, String content){
