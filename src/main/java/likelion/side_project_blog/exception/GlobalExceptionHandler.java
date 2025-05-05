@@ -21,6 +21,11 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(HttpStatus.NOT_FOUND,ex.getMessage());
     }
 
+    @ExceptionHandler(PermissionDeniedException.class)
+    public ResponseEntity<ApiResponse> handlePermissionDeniedException(PermissionDeniedException ex){
+        return buildErrorResponse(HttpStatus.FORBIDDEN,ex.getMessage());
+    }
+
     private ResponseEntity<ApiResponse> buildErrorResponse(HttpStatus status,String message){
         ApiResponse response=new ApiResponse(false,status.value(),message);
         return new ResponseEntity<>(response,status);

@@ -13,6 +13,7 @@ public class ArticleResponse {
     private final Long id;
     private final String title;
     private final String content;
+    private final String author;
     private final LocalDateTime createdAt;
     private final int totalComments;
     //댓글목록 추가
@@ -22,6 +23,7 @@ public class ArticleResponse {
         this.id= article.getId();
         this.title= article.getTitle();;
         this.content= article.getContent();
+        this.author=article.getAuthor();
         this.createdAt=article.getCreatedAt();
         this.comments=comments;
         this.totalComments=comments.size();

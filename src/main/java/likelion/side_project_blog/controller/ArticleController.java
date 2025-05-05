@@ -1,7 +1,7 @@
 package likelion.side_project_blog.controller;
 
-import likelion.side_project_blog.domain.Article;
 import likelion.side_project_blog.dto.request.AddArticleRequest;
+import likelion.side_project_blog.dto.request.DeleteRequest;
 import likelion.side_project_blog.dto.request.UpdateArticleRequest;
 import likelion.side_project_blog.dto.response.ApiResponse;
 import likelion.side_project_blog.dto.response.ArticleResponse;
@@ -58,8 +58,9 @@ public class ArticleController {
 
     /*게시글 삭제*/
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse> deleteArticle(@PathVariable long id){
-        articleService.deleteArticle(id);
+    public ResponseEntity<ApiResponse> deleteArticle(@PathVariable long id,
+                                                     @RequestBody DeleteRequest request){
+        articleService.deleteArticle(id,request);
 //        return ResponseEntity.ok(new ApiResponse(true,200,"게시글 삭제 성공"));
 
         return ResponseEntity.ok(ApiResponse.success("게시글 삭제 성공"));
