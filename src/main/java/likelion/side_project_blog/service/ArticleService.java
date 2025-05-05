@@ -7,6 +7,7 @@ import likelion.side_project_blog.dto.request.UpdateArticleRequest;
 import likelion.side_project_blog.dto.response.ApiResponse;
 import likelion.side_project_blog.dto.response.ArticleResponse;
 import likelion.side_project_blog.dto.response.CommentResponse;
+import likelion.side_project_blog.exception.ArticleNotFoundException;
 import likelion.side_project_blog.repository.ArticleRepository;
 import likelion.side_project_blog.repository.CommentRepository;
 import lombok.Builder;
@@ -29,7 +30,6 @@ public class ArticleService {
 
     //글 추가
     public void addArticle(AddArticleRequest request){
-        //null예외처리..
         articleRepository.save(request.toEntity());
     }
 
@@ -47,7 +47,7 @@ public class ArticleService {
     //단일 글 조회
     public ArticleResponse getArticle(Long id){
         Article article=articleRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException("해당 ID의 게시글을 찾을 수 없습니다."));
+                .orElseThrow(()-> new ArticleNotFoundException("해당 ID의 게시글을 찾을 수 없습니다."));
         List<CommentResponse> comments=getCommentList(article);
         return new ArticleResponse(article,comments);
     }
@@ -56,7 +56,7 @@ public class ArticleService {
     //글 삭제
     public void deleteArticle(Long id){
         Article article=articleRepository.findById(id)
-                        .orElseThrow(()->new EntityNotFoundException("해당 ID의 게시글을 찾을 수 없습니다"));
+                .orElseThrow(()-> new ArticleNotFoundException("해당 ID의 게시글을 찾을 수 없습니다."));
         articleRepository.deleteById(id);
 
     }
@@ -64,7 +64,7 @@ public class ArticleService {
     //글 수정
     public void updateArticle(Long id, UpdateArticleRequest request){
         Article article=articleRepository.findById(id)
-                        .orElseThrow(()->new EntityNotFoundException("해당 ID의 게시글을 찾을 수 없습니다"));
+                .orElseThrow(()-> new ArticleNotFoundException("해당 ID의 게시글을 찾을 수 없습니다."));
         article.update(request.getTitle(),request.getContent());
         articleRepository.save(article);
 
