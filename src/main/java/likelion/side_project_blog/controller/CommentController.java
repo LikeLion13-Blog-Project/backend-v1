@@ -20,15 +20,19 @@ public class CommentController {
     public ResponseEntity<ApiResponse> addComment(@PathVariable long articleId,
                                   @RequestBody AddCommentRequest request){
         commentService.addComment(articleId,request);
-        return ResponseEntity.ok(new ApiResponse(true,200,"댓글 등록 성공"));
+//        return ResponseEntity.ok(new ApiResponse(true,200,"댓글 등록 성공"));
+        return ResponseEntity.ok(ApiResponse.success("댓글 등록 성공"));
     }
+
 
     /*댓글 삭제*/
     @DeleteMapping("/{commentId}")
     public ResponseEntity<ApiResponse> deleteComment(@PathVariable long commentId){
         commentService.deleteComment(commentId);
-        return ResponseEntity.ok(new ApiResponse(true,200,"댓글 삭제 성공"));
+//        return ResponseEntity.ok(new ApiResponse(true,200,"댓글 삭제 성공"));
+        return ResponseEntity.ok(ApiResponse.success("댓글 삭제 성공"));
     }
+
 
 
 

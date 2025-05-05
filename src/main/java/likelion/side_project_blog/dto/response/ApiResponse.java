@@ -24,4 +24,13 @@ public class ApiResponse<T> {
         this.code = code;
         this.message = message;
     }
+
+    public static <T> ApiResponse<T> success(T data, String message){
+        return new ApiResponse<>(true,200,message,data);
+    }
+    public static ApiResponse<Void> success(String message){
+        return new ApiResponse<>(true,200,message, null);
+    }
+
+
 }
