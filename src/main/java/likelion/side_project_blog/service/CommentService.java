@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -28,6 +29,7 @@ public class CommentService {
             commentRepository.save(Comment.builder()
                     .article(article.get())
                     .content(request.getContent())
+                    .createdAt(LocalDateTime.now())
                     .build()
             );
         }
