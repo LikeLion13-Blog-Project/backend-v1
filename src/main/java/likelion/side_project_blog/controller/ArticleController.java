@@ -22,23 +22,27 @@ public class ArticleController {
     @GetMapping
     public ResponseEntity<ApiResponse<List<ArticleResponse>>> getAllArticles(){
         List<ArticleResponse> articles=articleService.getAllArticles();
-        return ResponseEntity.ok(new ApiResponse(true, 200, "게시글 조회 성공", articles));
+//        return ResponseEntity.ok(new ApiResponse(true, 200, "게시글 조회 성공", articles));
 
+        return ResponseEntity.ok(ApiResponse.success(articles,"게시글 조회 성공"));
     }
 
     /*게시글 추가*/
     @PostMapping
     public ResponseEntity<ApiResponse> addArticle(@RequestBody AddArticleRequest request){
         articleService.addArticle(request);
-        return ResponseEntity.ok(new ApiResponse(true,200,"게시글 등록 성공"));
+//        return ResponseEntity.ok(new ApiResponse(true,200,"게시글 등록 성공"));
+        return ResponseEntity.ok(ApiResponse.success("게시글 등록 성공"));
     }
+
 
     /*게시글 단일 조회*/
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse> getArticle(@PathVariable long id){
         ArticleResponse articleResponse=articleService.getArticle(id);
-        return ResponseEntity.ok(new ApiResponse(true,200,"게시글 조회 성공", articleResponse));
+//        return ResponseEntity.ok(new ApiResponse(true,200,"게시글 조회 성공", articleResponse));
 
+        return ResponseEntity.ok(ApiResponse.success(articleResponse,"게시글 조회 성공"));
     }
 
     /*게시글 수정*/
@@ -47,15 +51,17 @@ public class ArticleController {
                                                      @RequestBody UpdateArticleRequest request){
 
         articleService.updateArticle(id,request);
-        return ResponseEntity.ok(new ApiResponse(true,200,"게시글 수정 성공"));
+//        return ResponseEntity.ok(new ApiResponse(true,200,"게시글 수정 성공"));
 
+        return ResponseEntity.ok(ApiResponse.success("게시글 수정 성공"));
     }
 
     /*게시글 삭제*/
     @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse> deleteArticle(@PathVariable long id){
         articleService.deleteArticle(id);
-        return ResponseEntity.ok(new ApiResponse(true,200,"게시글 삭제 성공"));
+//        return ResponseEntity.ok(new ApiResponse(true,200,"게시글 삭제 성공"));
 
+        return ResponseEntity.ok(ApiResponse.success("게시글 삭제 성공"));
     }
 }
