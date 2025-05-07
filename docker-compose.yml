@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  database:
+    image: postgres:latest
+    container_name: blog-db
+    restart: always
+    env_file:
+      - .env
+    networks:
+      - blog-network
+    ports:
+      - "5433:5432"
+    volumes:
+      - blog_pgdata:/var/lib/postgresql/data
+
+  app:
+    image: naaadang/blog-app-v1
+    container_name: blog-app-v1
+    restart: always
+    depends_on:
+      - database
+    env_file:
+      - .env
+    networks:
+      - blog-network
+    ports:
+      - "8081:8080"
+
+
+volumes:
+  blog_pgdata:
+
+networks:
+  blog-network:
+    driver: bridge
