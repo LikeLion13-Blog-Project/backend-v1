@@ -25,6 +25,7 @@ public class ArticleService {
 
     //글 추가
     public void addArticle(AddArticleRequest request){
+        
         articleRepository.save(request.toEntity());
     }
 
