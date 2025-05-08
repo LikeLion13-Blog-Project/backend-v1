@@ -59,7 +59,12 @@ public class ArticleService {
         articleRepository.deleteById(id);
 
     }
-정 권한이 없습니다.");
+    //글 수정
+    public void updateArticle(Long id, UpdateArticleRequest request){
+        Article article=articleRepository.findById(id)
+                .orElseThrow(()-> new ArticleNotFoundException("해당 ID의 게시글을 찾을 수 없습니다."));
+        if(!article.getPassword().equals(request.getPassword())){
+            throw new PermissionDeniedException("해당 글에 대한 수정 권한이 없습니다.");
         }
         article.update(request.getTitle(),request.getContent());
         articleRepository.save(article);
