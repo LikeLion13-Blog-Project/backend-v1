@@ -50,6 +50,7 @@ jobs:
           key: ${{ secrets.SERVER_KEY }}
           port: 22
           script: |
+            echo "✅ EC2 접속 성공!"
             cd ~/v1
 
             echo "🔄 최신 코드 Pull"
