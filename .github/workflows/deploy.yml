@@ -1,4 +1,4 @@
-name: Deploy to EC2
+name: Deploy v1
 
 on:
   push:
@@ -10,30 +10,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 🔹 Checkout Repository
+      - name: Checkout Repository
         uses: actions/checkout@v3
 
-      # 🛠️ JDK 17 설치
-      - name: 🛠️ Set up JDK 17
+      # JDK 설치
+      - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      # 🛠️ Gradle로 JAR 파일 빌드
-      - name: 🛠️ Build JAR with Gradle
+      # Jar 파일 빌드
+      - name: Build JAR
         run: |
           chmod +x gradlew  # Gradle 실행 권한 부여
           ./gradlew clean build -x test  # 테스트 제외
 
-
-      - name: 🛠️ Build and Push Docker Image
+      # 도커 이미지 빌드
+      - name: Build and Push Docker Image
         run: |
           docker build --no-cache -t naaadang/blog-app-v1:latest .
           docker login -u "${{ secrets.DOCKER_USERNAME }}" -p "${{ secrets.DOCKER_PASSWORD }}"
           docker push naaadang/blog-app-v1:latest
 
-      # 🛠️ EC2 SSH 키 저장 & 권한 설정
+      # SSH 키
       - name: 🛠️ Save SSH Key and Set Permissions
         run: |
           mkdir -p ~/.ssh
@@ -41,8 +41,8 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           ls -al ~/.ssh  # 디버깅용
 
-      # 🚀 EC2에 SSH 접속 후 배포 실행
-      - name: 🚀 Deploy to EC2 via SSH
+      # EC2에 배포(SSH 접속)
+      - name: Deploy to EC2
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -50,24 +50,10 @@ jobs:
           key: ${{ secrets.SERVER_KEY }}
           port: 22
           script: |
-            echo "✅ EC2 접속 성공!"
+            echo "EC2 접속 성공!"
             cd ~/v1
-
-            echo "🔄 최신 코드 Pull"
-            git pull origin deploy
-
-            echo "🛠️ 도커 컨테이너 중지"
             docker-compose down
-
-            echo "🛠️ 최신 Docker 이미지 Pull"
             docker pull naaadang/blog-app-v1:latest
-
-            echo "🛠️ DB 먼저 실행"
-            docker-compose up -d database
-            sleep 10  # 🚀 DB가 먼저 실행될 시간을 줌
-
-            echo "🚀 Spring 애플리케이션 실행"
-            docker-compose up -d app
-
-            echo "🛠️ 실행 중인 컨테이너 확인"
+            docker-compose up -d 
+            docker image prune -f
             docker ps
