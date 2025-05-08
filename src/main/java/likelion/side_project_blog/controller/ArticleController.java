@@ -31,8 +31,8 @@ public class ArticleController {
     @PostMapping
     public ResponseEntity<ApiResponse> addArticle(@RequestBody AddArticleRequest request){
         articleService.addArticle(request);
-//        return ResponseEntity.ok(new ApiResponse(true,200,"게시글 등록 성공"));
-        return ResponseEntity.ok(ApiResponse.success("게시글 등록 성공"));
+        return ResponseEntity.ok(new ApiResponse(true,201,"게시글 등록 성공"));
+//        return ResponseEntity.ok(ApiResponse.success("게시글 등록 성공"));
     }
 
 
