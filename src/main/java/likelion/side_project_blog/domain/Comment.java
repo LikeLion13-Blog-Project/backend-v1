@@ -9,10 +9,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Getter @Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Getter
+@Builder @AllArgsConstructor
 public class Comment {
 
     @Id
@@ -39,15 +37,9 @@ public class Comment {
     private LocalDateTime createdAt;
 
 
-    @Builder
-    public Comment(Article article,String content){
-        this.article=article;
-        this.content=content;
-    }
-
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-    }
+//    @PrePersist
+//    protected void onCreate() {
+//        this.createdAt = LocalDateTime.now();
+//    }
 
 }

@@ -3,6 +3,7 @@ package likelion.side_project_blog.controller;
 import likelion.side_project_blog.dto.request.AddCommentRequest;
 import likelion.side_project_blog.dto.request.DeleteRequest;
 import likelion.side_project_blog.dto.response.ApiResponse;
+import likelion.side_project_blog.dto.response.CommentResponse;
 import likelion.side_project_blog.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +21,8 @@ public class CommentController {
     @PostMapping("/{articleId}")
     public ResponseEntity<ApiResponse> addComment(@PathVariable long articleId,
                                                   @RequestBody AddCommentRequest request){
-        commentService.addComment(articleId,request);
-        return ResponseEntity.ok(new ApiResponse(true,201,"댓글 등록 성공"));
+        CommentResponse response=commentService.addComment(articleId,request);
+        return ResponseEntity.ok(new ApiResponse(true,201,"댓글 등록 성공",response));
 
     }
 

@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
@@ -20,6 +22,7 @@ public class AddArticleRequest {
                 .content(content)
                 .author(author)
                 .password(password)
+                .createdAt(LocalDateTime.now())
                 .build();
     }
 }

@@ -7,8 +7,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
-@Builder
-@AllArgsConstructor
+@Builder @AllArgsConstructor
 public class ArticleResponse {
     private final Long id;
     private final String title;
