@@ -14,19 +14,8 @@ public class ArticleResponse {
     private final String content;
     private final String author;
     private final LocalDateTime createdAt;
-    private final int commentCount;
-    //댓글목록 추가
-    private final List<CommentResponse> comments;
 
-    public ArticleResponse(Article article, List<CommentResponse> comments){
-        this.id= article.getId();
-        this.title= article.getTitle();;
-        this.content= article.getContent();
-        this.author=article.getAuthor();
-        this.createdAt=article.getCreatedAt();
-        this.comments=comments;
-        this.commentCount = article.getCommentCount();
-    }
+
 
     //유용
     public static ArticleResponse of(Article article){

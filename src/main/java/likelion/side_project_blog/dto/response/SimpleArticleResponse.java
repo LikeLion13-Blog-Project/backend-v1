@@ -14,8 +14,8 @@ public class SimpleArticleResponse {
     private final Long id;
     private final String title;
     private final String author;
-    private final LocalDateTime createdAt;
-    private final int commentCount;
+
+
 
 
     public static SimpleArticleResponse of(Article article) {
@@ -23,8 +23,6 @@ public class SimpleArticleResponse {
                 .id(article.getId())
                 .title(article.getTitle())
                 .author(article.getAuthor())
-                .createdAt(article.getCreatedAt())
-                .commentCount(article.getCommentCount())
                 .build();
     }
 }

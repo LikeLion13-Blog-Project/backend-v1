@@ -31,8 +31,6 @@ public class Article {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
-    private int commentCount;
 
 
     public Article(String title, String content, String author, String password) {
@@ -49,13 +47,6 @@ public class Article {
         this.content=content;
     }
 
-    public void increaseCommentCount() {
-        commentCount++;
-    }
-
-    public void decreaseCommentCount() {
-        if(commentCount>0) commentCount--;
-    }
 
 //    @PrePersist
 //    protected void onCreate() {

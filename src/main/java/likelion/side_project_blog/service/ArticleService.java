@@ -6,25 +6,20 @@ import likelion.side_project_blog.dto.request.AddArticleRequest;
 import likelion.side_project_blog.dto.request.DeleteRequest;
 import likelion.side_project_blog.dto.request.UpdateArticleRequest;
 import likelion.side_project_blog.dto.response.ArticleResponse;
-import likelion.side_project_blog.dto.response.CommentResponse;
 import likelion.side_project_blog.dto.response.SimpleArticleResponse;
 import likelion.side_project_blog.exception.ArticleNotFoundException;
 import likelion.side_project_blog.exception.PermissionDeniedException;
 import likelion.side_project_blog.repository.ArticleRepository;
-import likelion.side_project_blog.repository.CommentRepository;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Service
 @RequiredArgsConstructor
 public class ArticleService {
     private final ArticleRepository articleRepository;
-    private final CommentRepository commentRepository;
 
     //글 추가
     @Transactional
@@ -67,7 +62,7 @@ public class ArticleService {
         /*1. 데이터베이스에 저장된 전체 게시글 목록 가져오기*/
         List<Article> articleList = articleRepository.findAll();
 
-        /*2. Article -> ArticleResponse : 엔티티를 DTO로 변환*/
+        /*2. Article -> SimpleArticleResponse : 엔티티를 DTO로 변환*/
         List<SimpleArticleResponse> articleResponseList=articleList.stream()
                 .map(article -> SimpleArticleResponse.of(article))
                 .toList();
@@ -84,11 +79,9 @@ public class ArticleService {
         Article article=articleRepository.findById(id)
                 .orElseThrow(()-> new ArticleNotFoundException("해당 ID의 게시글을 찾을 수 없습니다."));
 
-        /*2. 해당 게시글에 달려있는 댓글들 가져오기*/
-        List<CommentResponse> comments=getCommentList(article);
 
         /*3. ArticleResponse DTO 생성하여 반환 */
-        return new ArticleResponse(article,comments);
+        return ArticleResponse.of(article);
     }
 
 
@@ -135,12 +128,7 @@ public class ArticleService {
     }
 
 
-    //특정 게시글에 달려있는 댓글목록 가져오기
-    private List<CommentResponse> getCommentList(Article article){
-        return commentRepository.findByArticle(article).stream()
-                .map(comment->new CommentResponse(comment))
-                .toList();
-    }
+
 
 
 }
