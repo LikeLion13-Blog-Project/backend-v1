@@ -65,7 +65,7 @@ public class ArticleService {
         Article article=articleRepository.findById(id)
                 .orElseThrow(()-> new ArticleNotFoundException("해당 ID의 게시글을 찾을 수 없습니다."));
         if(!article.getPassword().equals(request.getPassword())){
-            throw new PermissionDeniedException("해당 글에 대한 삭제 권한이 없습니다.");
+            throw new PermissionDeniedException("해당 글에 대한 수정 권한이 없습니다.");
         }
         article.update(request.getTitle(),request.getContent());
         articleRepository.save(article);

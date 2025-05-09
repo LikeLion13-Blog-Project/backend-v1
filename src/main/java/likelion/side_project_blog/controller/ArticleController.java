@@ -20,11 +20,10 @@ public class ArticleController {
 
     /*게시글 전체 조회*/
     @GetMapping
-    public ResponseEntity<ApiResponse<List<ArticleResponse>>> getAllArticles(){
+    public ResponseEntity<ApiResponse> getAllArticles(){
         List<ArticleResponse> articles=articleService.getAllArticles();
-//        return ResponseEntity.ok(new ApiResponse(true, 200, "게시글 조회 성공", articles));
+        return ResponseEntity.ok(new ApiResponse(true, 200, "게시글 조회 성공", articles));
 
-        return ResponseEntity.ok(ApiResponse.success(articles,"게시글 조회 성공"));
     }
 
     /*게시글 추가*/
@@ -32,7 +31,7 @@ public class ArticleController {
     public ResponseEntity<ApiResponse> addArticle(@RequestBody AddArticleRequest request){
         articleService.addArticle(request);
         return ResponseEntity.ok(new ApiResponse(true,201,"게시글 등록 성공"));
-//        return ResponseEntity.ok(ApiResponse.success("게시글 등록 성공"));
+
     }
 
 
@@ -40,20 +39,17 @@ public class ArticleController {
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse> getArticle(@PathVariable long id){
         ArticleResponse articleResponse=articleService.getArticle(id);
-//        return ResponseEntity.ok(new ApiResponse(true,200,"게시글 조회 성공", articleResponse));
+        return ResponseEntity.ok(new ApiResponse(true,200,"게시글 조회 성공", articleResponse));
 
-        return ResponseEntity.ok(ApiResponse.success(articleResponse,"게시글 조회 성공"));
     }
 
     /*게시글 수정*/
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse> updateArticle(@PathVariable long id,
                                                      @RequestBody UpdateArticleRequest request){
-
         articleService.updateArticle(id,request);
-//        return ResponseEntity.ok(new ApiResponse(true,200,"게시글 수정 성공"));
+        return ResponseEntity.ok(new ApiResponse(true,204,"게시글 수정 성공"));
 
-        return ResponseEntity.ok(ApiResponse.success("게시글 수정 성공"));
     }
 
     /*게시글 삭제*/
@@ -61,8 +57,7 @@ public class ArticleController {
     public ResponseEntity<ApiResponse> deleteArticle(@PathVariable long id,
                                                      @RequestBody DeleteRequest request){
         articleService.deleteArticle(id,request);
-//        return ResponseEntity.ok(new ApiResponse(true,200,"게시글 삭제 성공"));
+        return ResponseEntity.ok(new ApiResponse(true,204,"게시글 삭제 성공"));
 
-        return ResponseEntity.ok(ApiResponse.success("게시글 삭제 성공"));
     }
 }
