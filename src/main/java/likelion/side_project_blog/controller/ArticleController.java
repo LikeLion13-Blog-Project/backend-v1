@@ -5,6 +5,7 @@ import likelion.side_project_blog.dto.request.DeleteRequest;
 import likelion.side_project_blog.dto.request.UpdateArticleRequest;
 import likelion.side_project_blog.dto.response.ApiResponse;
 import likelion.side_project_blog.dto.response.ArticleResponse;
+import likelion.side_project_blog.dto.response.SimpleArticleResponse;
 import likelion.side_project_blog.service.ArticleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class ArticleController {
     /*게시글 전체 조회*/
     @GetMapping
     public ResponseEntity<ApiResponse> getAllArticles(){
-        List<ArticleResponse> articles=articleService.getAllArticles();
+        List<SimpleArticleResponse> articles=articleService.getAllArticles();
         return ResponseEntity.ok(new ApiResponse(true, 200, "게시글 조회 성공", articles));
 
     }

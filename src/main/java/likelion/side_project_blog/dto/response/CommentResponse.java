@@ -29,7 +29,7 @@ public class CommentResponse {
         return CommentResponse.builder()
                 .id(comment.getId())
                 .articleId(comment.getArticle().getId())
-                .content(comment.getAuthor())
+                .content(comment.getContent())
                 .author(comment.getAuthor())
                 .createdAt(comment.getCreatedAt())
                 .build();

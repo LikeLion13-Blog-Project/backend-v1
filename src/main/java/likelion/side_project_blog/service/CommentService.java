@@ -1,6 +1,7 @@
 package likelion.side_project_blog.service;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import likelion.side_project_blog.domain.Article;
 import likelion.side_project_blog.domain.Comment;
 import likelion.side_project_blog.dto.request.AddCommentRequest;
@@ -26,6 +27,7 @@ public class CommentService {
     private final ArticleRepository articleRepository;
 
     /*댓글 작성*/
+    @Transactional
     public CommentResponse addComment(long articleId, AddCommentRequest request) {
         /* 1. 요청이 들어온 게시글 ID로 데이터베이스에서 게시글 찾기. 해당하는 게시글이 없으면 에러*/
         Article article=articleRepository.findById(articleId)
@@ -35,13 +37,17 @@ public class CommentService {
         Comment comment=request.toEntity(article);
         commentRepository.save(comment);
 
-        /* 3. 방금 생성한 댓글을 DTO로 변환하여 반환 */
+        /* 3. 게시글의 commentCount 필드 +1 */
+        article.increaseCommentCount();
+
+        /* 4. 방금 생성한 댓글을 DTO로 변환하여 반환 */
         return CommentResponse.of(comment);
 
     }
 
 
     /*댓글 삭제*/
+    @Transactional
     public void deleteComment(long commentId, DeleteRequest request) {
         /* 1. 요청이 들어온 게시글 ID로 데이터베이스에서 댓글 찾기. 해당하는 댓글이 없으면 에러 */
         Comment comment=commentRepository.findById(commentId)
@@ -57,6 +63,9 @@ public class CommentService {
 
         /* 3. 댓글 삭제 */
         commentRepository.deleteById(commentId);
+
+        /* 4. 게시글의 commentCount -1 */
+        comment.getArticle().decreaseCommentCount();
     }
 
 

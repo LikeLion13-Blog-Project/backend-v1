@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Builder @AllArgsConstructor
+@NoArgsConstructor
 public class Article {
 
     @Id
@@ -46,6 +47,14 @@ public class Article {
     public void update(String title, String content){
         this.title=title;
         this.content=content;
+    }
+
+    public void increaseCommentCount() {
+        commentCount++;
+    }
+
+    public void decreaseCommentCount() {
+        if(commentCount>0) commentCount--;
     }
 
 //    @PrePersist

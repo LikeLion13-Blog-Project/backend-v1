@@ -1,11 +1,13 @@
 package likelion.side_project_blog.service;
 
+import jakarta.transaction.Transactional;
 import likelion.side_project_blog.domain.Article;
 import likelion.side_project_blog.dto.request.AddArticleRequest;
 import likelion.side_project_blog.dto.request.DeleteRequest;
 import likelion.side_project_blog.dto.request.UpdateArticleRequest;
 import likelion.side_project_blog.dto.response.ArticleResponse;
 import likelion.side_project_blog.dto.response.CommentResponse;
+import likelion.side_project_blog.dto.response.SimpleArticleResponse;
 import likelion.side_project_blog.exception.ArticleNotFoundException;
 import likelion.side_project_blog.exception.PermissionDeniedException;
 import likelion.side_project_blog.repository.ArticleRepository;
@@ -15,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -24,6 +27,7 @@ public class ArticleService {
     private final CommentRepository commentRepository;
 
     //글 추가
+    @Transactional
     public ArticleResponse addArticle(AddArticleRequest request){
 
         /*1. Article 객체 생성*/
@@ -59,13 +63,13 @@ public class ArticleService {
 
 
     //전체 글 조회
-    public List<ArticleResponse> getAllArticles(){
+    public List<SimpleArticleResponse> getAllArticles(){
         /*1. 데이터베이스에 저장된 전체 게시글 목록 가져오기*/
         List<Article> articleList = articleRepository.findAll();
 
         /*2. Article -> ArticleResponse : 엔티티를 DTO로 변환*/
-        List<ArticleResponse> articleResponseList=articleList.stream()
-                .map(article -> new ArticleResponse(article,getCommentList(article)))
+        List<SimpleArticleResponse> articleResponseList=articleList.stream()
+                .map(article -> SimpleArticleResponse.of(article))
                 .toList();
 
         /*3. articleResponseList (DTO 리스트) 반환 */
@@ -89,6 +93,7 @@ public class ArticleService {
 
 
     //글 삭제
+    @Transactional
     public void deleteArticle(Long id, DeleteRequest request){
         /* 1. 요청이 들어온 게시글 ID로 데이터베이스에서 게시글 찾기. 해당하는 게시글이 없으면 에러*/
         Article article=articleRepository.findById(id)
@@ -108,6 +113,7 @@ public class ArticleService {
     }
 
     //글 수정
+    @Transactional
     public void updateArticle(Long id, UpdateArticleRequest request){
 
         /* 1. 요청이 들어온 게시글 ID로 데이터베이스에서 게시글 찾기. 해당하는 게시글이 없으면 에러*/

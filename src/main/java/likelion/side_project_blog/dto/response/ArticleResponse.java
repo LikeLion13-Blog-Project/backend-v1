@@ -14,7 +14,7 @@ public class ArticleResponse {
     private final String content;
     private final String author;
     private final LocalDateTime createdAt;
-    private final int totalComments;
+    private final int commentCount;
     //댓글목록 추가
     private final List<CommentResponse> comments;
 
@@ -25,7 +25,7 @@ public class ArticleResponse {
         this.author=article.getAuthor();
         this.createdAt=article.getCreatedAt();
         this.comments=comments;
-        this.totalComments=comments.size();
+        this.commentCount = article.getCommentCount();
     }
 
     //유용
