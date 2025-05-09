@@ -16,17 +16,43 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@RequiredArgsConstructor
+
 @Service
-@Builder
+@RequiredArgsConstructor
 public class ArticleService {
     private final ArticleRepository articleRepository;
     private final CommentRepository commentRepository;
 
     //글 추가
-    public void addArticle(AddArticleRequest request){
-        
-        articleRepository.save(request.toEntity());
+    public ArticleResponse addArticle(AddArticleRequest request){
+
+        /*1. Article 객체 생성*/
+        //Option1. 생성자 사용
+//        Article article=new Article(request.getTitle(), request.getContent(), request.getAuthor(), request.getPassword());
+        //Option2. 빌더 사용
+        Article article=Article.builder()
+                        .title(request.getTitle())
+                        .content(request.getContent())
+                        .author(request.getAuthor())
+                        .password(request.getPassword())
+                        .build();
+
+        /*2. 레포지토리에 저장*/
+        articleRepository.save(article);
+
+        /*3. ArticleResponse 생성하여 반환*/
+        //Option1. 직접 생성
+//        return ArticleResponse.builder()
+//                .id(article.getId())
+//                .title(article.getTitle())
+//                .content(article.getContent())
+//                .author(article.getAuthor())
+//                .createdAt(article.getCreatedAt())
+//                .build();
+
+        //Option2. DTO에 static 메서드 정의하여 사용
+        return ArticleResponse.of(article);
+
     }
 
 

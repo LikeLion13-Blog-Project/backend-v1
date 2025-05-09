@@ -1,13 +1,13 @@
 package likelion.side_project_blog.dto.response;
 
 import likelion.side_project_blog.domain.Article;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
+@Builder
 @AllArgsConstructor
 public class ArticleResponse {
     private final Long id;
@@ -27,6 +27,17 @@ public class ArticleResponse {
         this.createdAt=article.getCreatedAt();
         this.comments=comments;
         this.totalComments=comments.size();
+    }
+
+    //유용
+    public static ArticleResponse of(Article article){
+        return ArticleResponse.builder()
+                .id(article.getId())
+                .title(article.getTitle())
+                .content(article.getContent())
+                .author(article.getAuthor())
+                .createdAt(article.getCreatedAt())
+                .build();
     }
 
 

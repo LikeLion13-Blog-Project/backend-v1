@@ -7,10 +7,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Getter @Setter
+@Getter
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class Article {
 
     @Id
@@ -32,17 +30,18 @@ public class Article {
     @Column(nullable = false)
     private String password;
 
+    public Article(String title, String content, String author, String password) {
+        this.title = title;
+        this.content = content;
+        this.author = author;
+        this.password = password;
+        this.createdAt=LocalDateTime.now();
+    }
 
     public void update(String title, String content){
         this.title=title;
         this.content=content;
     }
-
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-    }
-
 
 
 

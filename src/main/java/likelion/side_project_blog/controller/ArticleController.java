@@ -29,8 +29,8 @@ public class ArticleController {
     /*게시글 추가*/
     @PostMapping
     public ResponseEntity<ApiResponse> addArticle(@RequestBody AddArticleRequest request){
-        articleService.addArticle(request);
-        return ResponseEntity.ok(new ApiResponse(true,201,"게시글 등록 성공"));
+        ArticleResponse response=articleService.addArticle(request);
+        return ResponseEntity.ok(new ApiResponse(true,201,"게시글 등록 성공",response));
 
     }
 
@@ -38,8 +38,8 @@ public class ArticleController {
     /*게시글 단일 조회*/
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse> getArticle(@PathVariable long id){
-        ArticleResponse articleResponse=articleService.getArticle(id);
-        return ResponseEntity.ok(new ApiResponse(true,200,"게시글 조회 성공", articleResponse));
+        ArticleResponse response=articleService.getArticle(id);
+        return ResponseEntity.ok(new ApiResponse(true,200,"게시글 조회 성공", response));
 
     }
 
