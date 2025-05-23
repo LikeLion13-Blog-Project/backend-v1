@@ -1,5 +1,6 @@
 package likelion.side_project_blog.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import likelion.side_project_blog.domain.Article;
 import likelion.side_project_blog.dto.request.AddArticleRequest;
@@ -82,7 +83,8 @@ public class ArticleService {
     public ArticleResponse getArticle(Long id){
         /* 1. 요청이 들어온 게시글 ID로 데이터베이스에서 게시글 찾기. 해당하는 게시글이 없으면 에러*/
         Article article=articleRepository.findById(id)
-                .orElseThrow(()-> new ArticleNotFoundException("해당 ID의 게시글을 찾을 수 없습니다."));
+//                .orElseThrow(()-> new ArticleNotFoundException("해당 ID의 게시글을 찾을 수 없습니다."));
+                .orElseThrow(()->new EntityNotFoundException("해당 ID의 게시글을 찾을 수 없습니다."));
 
         /*2. 해당 게시글에 달려있는 댓글들 가져오기*/
         List<CommentResponse> comments=getCommentList(article);
@@ -97,7 +99,8 @@ public class ArticleService {
     public void deleteArticle(Long id, DeleteRequest request){
         /* 1. 요청이 들어온 게시글 ID로 데이터베이스에서 게시글 찾기. 해당하는 게시글이 없으면 에러*/
         Article article=articleRepository.findById(id)
-                .orElseThrow(()-> new ArticleNotFoundException("해당 ID의 게시글을 찾을 수 없습니다."));
+//                .orElseThrow(()-> new ArticleNotFoundException("해당 ID의 게시글을 찾을 수 없습니다."));
+                .orElseThrow(()->new EntityNotFoundException("해당 ID의 게시글을 찾을 수 없습니다."));
 
         /*2. 비밀번호 일치하는지 확인 : 요청을 보낸 사람이 이 게시글의 삭제권한을 가지고 있는지
             request.getPassword() : 게시글 수정 요청을 보낸 사람이 입력한 비밀번호
@@ -106,6 +109,7 @@ public class ArticleService {
         if(!request.getPassword().equals(article.getPassword())){
             throw new PermissionDeniedException("해당 글에 대한 삭제 권한이 없습니다.");
         }
+
 
         /*3. 게시글 삭제 */
         articleRepository.deleteById(id);
@@ -118,14 +122,16 @@ public class ArticleService {
 
         /* 1. 요청이 들어온 게시글 ID로 데이터베이스에서 게시글 찾기. 해당하는 게시글이 없으면 에러*/
         Article article=articleRepository.findById(id)
-                .orElseThrow(()-> new ArticleNotFoundException("해당 ID의 게시글을 찾을 수 없습니다."));
+//                .orElseThrow(()-> new ArticleNotFoundException("해당 ID의 게시글을 찾을 수 없습니다."));
+                .orElseThrow(()->new EntityNotFoundException("해당 ID의 게시글을 찾을 수 없습니다."));
+
 
         /*2. 비밀번호 일치하는지 확인 : 요청을 보낸 사람이 이 게시글의 수정 권한을 가지고 있는지
             request.getPassword() : 게시글 수정 요청을 보낸 사람이 입력한 비밀번호
             article.getPassword() : 데이터베이스에 저장된 비밀번호 (작성자가 글 쓸때 등록한)
          */
         if(!article.getPassword().equals(request.getPassword())){
-            throw new PermissionDeniedException("해당 글에 대한 수정 권한이 없습니다.");
+            throw new RuntimeException("해당 글에 대한 수정 권한이 없습니다.");
         }
 
         /*3. 게시글 수정 후 저장 */

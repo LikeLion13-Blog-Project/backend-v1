@@ -35,15 +35,6 @@ public class Article {
     private int commentCount;
 
 
-    public Article(String title, String content, String author, String password) {
-        this.title=title;
-        this.content=content;
-        this.author=author;
-        this.password=password;
-        this.createdAt=LocalDateTime.now();
-    }
-
-
     public void update(String title, String content){
         this.title=title;
         this.content=content;
@@ -57,10 +48,6 @@ public class Article {
         if(commentCount>0) commentCount--;
     }
 
-//    @PrePersist
-//    protected void onCreate() {
-//        this.createdAt = LocalDateTime.now();
-//    }
 
 
 

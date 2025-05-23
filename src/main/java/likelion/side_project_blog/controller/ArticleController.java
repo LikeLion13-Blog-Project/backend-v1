@@ -8,6 +8,7 @@ import likelion.side_project_blog.dto.response.ArticleResponse;
 import likelion.side_project_blog.dto.response.SimpleArticleResponse;
 import likelion.side_project_blog.service.ArticleService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +32,9 @@ public class ArticleController {
     @PostMapping
     public ResponseEntity<ApiResponse> addArticle(@RequestBody AddArticleRequest request){
         ArticleResponse response=articleService.addArticle(request);
-        return ResponseEntity.ok(new ApiResponse(true,201,"게시글 등록 성공",response));
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(new ApiResponse(true,201,"게시글 등록 성공",response));
 
     }
 

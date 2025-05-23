@@ -6,6 +6,7 @@ import likelion.side_project_blog.dto.response.ApiResponse;
 import likelion.side_project_blog.dto.response.CommentResponse;
 import likelion.side_project_blog.service.CommentService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +23,9 @@ public class CommentController {
     public ResponseEntity<ApiResponse> addComment(@PathVariable long articleId,
                                                   @RequestBody AddCommentRequest request){
         CommentResponse response=commentService.addComment(articleId,request);
-        return ResponseEntity.ok(new ApiResponse(true,201,"댓글 등록 성공",response));
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body((new ApiResponse(true,201,"댓글 등록 성공",response)));
 
     }
 
