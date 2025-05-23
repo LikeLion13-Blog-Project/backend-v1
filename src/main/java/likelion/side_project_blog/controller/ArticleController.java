@@ -4,6 +4,7 @@ import likelion.side_project_blog.dto.request.AddArticleRequest;
 import likelion.side_project_blog.dto.request.DeleteRequest;
 import likelion.side_project_blog.dto.request.UpdateArticleRequest;
 import likelion.side_project_blog.dto.response.ApiResponse;
+import likelion.side_project_blog.dto.response.ArticleDetailResponse;
 import likelion.side_project_blog.dto.response.ArticleResponse;
 import likelion.side_project_blog.dto.response.SimpleArticleResponse;
 import likelion.side_project_blog.service.ArticleService;
@@ -42,7 +43,7 @@ public class ArticleController {
     /*게시글 단일 조회*/
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse> getArticle(@PathVariable long id){
-        ArticleResponse response=articleService.getArticle(id);
+        ArticleDetailResponse response=articleService.getArticle(id);
         return ResponseEntity.ok(new ApiResponse(true,200,"게시글 조회 성공", response));
 
     }

@@ -6,6 +6,7 @@ import likelion.side_project_blog.domain.Article;
 import likelion.side_project_blog.dto.request.AddArticleRequest;
 import likelion.side_project_blog.dto.request.DeleteRequest;
 import likelion.side_project_blog.dto.request.UpdateArticleRequest;
+import likelion.side_project_blog.dto.response.ArticleDetailResponse;
 import likelion.side_project_blog.dto.response.ArticleResponse;
 import likelion.side_project_blog.dto.response.CommentResponse;
 import likelion.side_project_blog.dto.response.SimpleArticleResponse;
@@ -13,12 +14,10 @@ import likelion.side_project_blog.exception.ArticleNotFoundException;
 import likelion.side_project_blog.exception.PermissionDeniedException;
 import likelion.side_project_blog.repository.ArticleRepository;
 import likelion.side_project_blog.repository.CommentRepository;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -45,7 +44,7 @@ public class ArticleService {
         Article article=request.toEntity();
 
         /*2. 레포지토리에 저장*/
-        articleRepository.save(article);
+        article=articleRepository.save(article);
 
         /*3. ArticleResponse DTO 생성하여 반환*/
         //Option1. 직접 생성
@@ -80,7 +79,7 @@ public class ArticleService {
 
 
     //단일 글 조회
-    public ArticleResponse getArticle(Long id){
+    public ArticleDetailResponse getArticle(Long id){
         /* 1. 요청이 들어온 게시글 ID로 데이터베이스에서 게시글 찾기. 해당하는 게시글이 없으면 에러*/
         Article article=articleRepository.findById(id)
 //                .orElseThrow(()-> new ArticleNotFoundException("해당 ID의 게시글을 찾을 수 없습니다."));
@@ -90,7 +89,7 @@ public class ArticleService {
         List<CommentResponse> comments=getCommentList(article);
 
         /*3. ArticleResponse DTO 생성하여 반환 */
-        return new ArticleResponse(article,comments);
+        return ArticleDetailResponse.of(article,comments);
     }
 
 
@@ -99,8 +98,8 @@ public class ArticleService {
     public void deleteArticle(Long id, DeleteRequest request){
         /* 1. 요청이 들어온 게시글 ID로 데이터베이스에서 게시글 찾기. 해당하는 게시글이 없으면 에러*/
         Article article=articleRepository.findById(id)
-//                .orElseThrow(()-> new ArticleNotFoundException("해당 ID의 게시글을 찾을 수 없습니다."));
-                .orElseThrow(()->new EntityNotFoundException("해당 ID의 게시글을 찾을 수 없습니다."));
+                .orElseThrow(()-> new ArticleNotFoundException("해당 ID의 게시글을 찾을 수 없습니다."));
+//                .orElseThrow(()->new EntityNotFoundException("해당 ID의 게시글을 찾을 수 없습니다."));
 
         /*2. 비밀번호 일치하는지 확인 : 요청을 보낸 사람이 이 게시글의 삭제권한을 가지고 있는지
             request.getPassword() : 게시글 수정 요청을 보낸 사람이 입력한 비밀번호
@@ -136,7 +135,7 @@ public class ArticleService {
 
         /*3. 게시글 수정 후 저장 */
         article.update(request.getTitle(),request.getContent());
-        articleRepository.save(article);
+        article=articleRepository.save(article);
 
         /* ArticleResponse로 변환해서 리턴 */
         return ArticleResponse.of(article);

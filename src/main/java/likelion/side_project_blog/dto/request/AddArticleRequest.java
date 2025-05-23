@@ -23,6 +23,7 @@ public class AddArticleRequest {
                 .author(author)
                 .password(password)
                 .createdAt(LocalDateTime.now())
+                .commentCount(0)
                 .build();
     }
 }

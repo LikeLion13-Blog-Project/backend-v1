@@ -37,7 +37,7 @@ public class CommentService {
 
         /* 2. 위 게시글에 대한 댓글 생성하여 저장 */
         Comment comment=request.toEntity(article);
-        commentRepository.save(comment);
+        comment=commentRepository.save(comment);
 
         /* 3. 게시글의 commentCount 필드 +1 */
         article.increaseCommentCount();
