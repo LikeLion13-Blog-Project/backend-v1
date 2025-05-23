@@ -51,8 +51,8 @@ public class ArticleController {
     @PutMapping("/{id}")
     public ResponseEntity<ApiResponse> updateArticle(@PathVariable long id,
                                                      @RequestBody UpdateArticleRequest request){
-        articleService.updateArticle(id,request);
-        return ResponseEntity.ok(new ApiResponse(true,204,"게시글 수정 성공"));
+        ArticleResponse response=articleService.updateArticle(id,request);
+        return ResponseEntity.ok(new ApiResponse(true,200,"게시글 수정 성공",response));
 
     }
 
@@ -61,7 +61,7 @@ public class ArticleController {
     public ResponseEntity<ApiResponse> deleteArticle(@PathVariable long id,
                                                      @RequestBody DeleteRequest request){
         articleService.deleteArticle(id,request);
-        return ResponseEntity.ok(new ApiResponse(true,204,"게시글 삭제 성공"));
+        return ResponseEntity.ok(new ApiResponse(true,200,"게시글 삭제 성공"));
 
     }
 }

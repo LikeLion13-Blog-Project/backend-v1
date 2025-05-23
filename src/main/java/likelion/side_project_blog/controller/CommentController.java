@@ -35,7 +35,7 @@ public class CommentController {
     public ResponseEntity<ApiResponse> deleteComment(@PathVariable long commentId,
                                                      @RequestBody DeleteRequest request) {
         commentService.deleteComment(commentId, request);
-        return ResponseEntity.ok(new ApiResponse(true, 204, "댓글 삭제 성공"));
+        return ResponseEntity.ok(new ApiResponse(true, 200, "댓글 삭제 성공"));
     }
 
 

@@ -118,7 +118,7 @@ public class ArticleService {
 
     //글 수정
     @Transactional
-    public void updateArticle(Long id, UpdateArticleRequest request){
+    public ArticleResponse updateArticle(Long id, UpdateArticleRequest request){
 
         /* 1. 요청이 들어온 게시글 ID로 데이터베이스에서 게시글 찾기. 해당하는 게시글이 없으면 에러*/
         Article article=articleRepository.findById(id)
@@ -137,6 +137,9 @@ public class ArticleService {
         /*3. 게시글 수정 후 저장 */
         article.update(request.getTitle(),request.getContent());
         articleRepository.save(article);
+
+        /* ArticleResponse로 변환해서 리턴 */
+        return ArticleResponse.of(article);
 
     }
 
